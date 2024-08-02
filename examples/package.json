@@ -1,0 +1,26 @@
+{
+    "name": "@trytocreate/vuepress-theme-resume-examples",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Examples of @trytocreate/vuepress-theme-resume",
+    "type": "module",
+    "keywords": [],
+    "author": {
+        "name": "PlayDrinkEatCode",
+        "email": "zdj@djweb.site",
+        "url": "https://www.djweb.site"
+    },
+    "license": "MIT",
+    "scripts": {
+        "docs:dev": "vuepress dev docs",
+        "docs:clean-dev": "vuepress dev docs --clean-cache",
+        "docs:build": "vuepress build docs",
+        "docs:update-package": "npx vp-update"
+    },
+    "devDependencies": {
+        "@trytocreate/vuepress-theme-resume": "^1.0.0",
+        "@vuepress/bundler-vite": "2.0.0-rc.14",
+        "vue": "^3.4.34",
+        "vuepress": "2.0.0-rc.14"
+    }
+}

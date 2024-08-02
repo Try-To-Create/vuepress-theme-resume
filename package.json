@@ -1,0 +1,28 @@
+{
+    "name": "@trytocreate/vuepress-theme-resume",
+    "version": "1.0.0",
+    "private": false,
+    "description": "A resume theme for VuePress 2",
+    "type": "module",
+    "main": "dist/index.js",
+    "keywords": [
+        "resume",
+        "vuepress",
+        "theme",
+        "vuepress-theme",
+        "vuepress-theme-resume"
+    ],
+    "author": {
+        "name": "PlayDrinkEatCode",
+        "email": "zdj@djweb.site",
+        "url": "https://www.djweb.site"
+    },
+    "scripts": {
+        "build": "node scripts/build.js && tsc"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "vue": "^3.4.34",
+        "vuepress": "2.0.0-rc.14"
+    }
+}

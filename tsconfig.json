@@ -1,0 +1,12 @@
+{
+    "include": [
+        "src",
+    ],
+    "compilerOptions": {
+        "strict": true,
+        "target": "ES6",
+        "module": "NodeNext",
+        "declaration": true,
+        "outDir": "dist"
+    }
+}

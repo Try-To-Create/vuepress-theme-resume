@@ -1,6 +1,6 @@
 {
     "name": "@trytocreate/vuepress-theme-resume",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "private": false,
     "description": "A resume theme for VuePress 2",
     "type": "module",

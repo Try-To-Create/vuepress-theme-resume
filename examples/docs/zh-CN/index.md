@@ -36,7 +36,7 @@ introduce: 一份示例简历。
 # photo: /photo.png
 photo: 
     src: /photo.png
-    # 可选项。更改背景颜色。格式为 HEX 或 RGB/RGBA。
+    # 可选项。更改背景颜色。支持 HEX / RGB / RGBA / HSL / HSLA 格式。
     backColor: '#D6D9FD'
     # 可选项。用于更改背景颜色。默认为diff: 10。
     # 简单模式：

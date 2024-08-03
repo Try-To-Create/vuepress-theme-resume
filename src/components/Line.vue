@@ -16,7 +16,6 @@ const classes = (() => {
     }
     return className
 })()
-
 </script>
 
 <template>

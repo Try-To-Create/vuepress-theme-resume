@@ -34,7 +34,7 @@ introduce: An example resume.
 # photo: /photo.png
 photo:
     src: /photo.png
-    # Optional. Change the back color. HEX Format or RGB/RGBA format.
+    # Optional. Change the back color. HEX / RGB / RGBA / HSL / HSLA format.
     backColor: '#D6D9FD'
     # Optional. For changing the back color. Default to diff: 10.
     # Simple mode:

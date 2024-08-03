@@ -8,50 +8,78 @@ interface Color {
     alpha: number
 }
 
-function parseColor(color: string): Color {
-    // HEX to RGBA
-    const hexRegExp = /^#([a-fA-F\d]{3,4}|[a-fA-F\d]{6}|[a-fA-F\d]{8})$/
-    const hexMatched = color.match(hexRegExp)
-    if (hexMatched) {
-        let hex = hexMatched[1]
-        if (hex.length <= 4) {
-            hex = hex.split('').map(char => char + char).join('')
-        }
-        color = hex.match(/.{2}/g)!.map((value, index, { length }) => {
-            value = parseInt(value, 16).toString()
-            if (index == 0) {
-                value = 'rgba(' + value
-            }
-            if (index < length - 1) {
-                value += ','
-            } else {
-                if (index < 3) {
-                    value += ',1'
-                } else {
-                    value = (+value / 255).toString()
-                }
-                value += ')'
-            } 
-            return value
-        }).join('')
-    }
-    const rgbaRegExp = /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*([.\d]{1,3})\s*)?\)$/
-    const rgbaMatched = color.match(rgbaRegExp)
-    if (rgbaMatched) {
-        const [, red, green, blue, alpha] = rgbaMatched
-        return { 
-            red: +red,
-            green: +green,
-            blue: +blue,
-            alpha: alpha? Math.floor((+ alpha) * 255) : 255
-        }
-    }
-    return {
+function parseColor(colorString: string): Color {
+    const color: Color = {
         red: 255,
         green: 255,
         blue: 255,
         alpha: 255
     }
+    // HEX
+    const hexRegExp = /^#([A-F\d]{3,4}|[A-F\d]{6}|[A-F\d]{8})$/i
+    const hexMatched = colorString.match(hexRegExp)
+    if (hexMatched) {
+        let hex = hexMatched[1]
+        if (hex.length <= 4) {
+            hex = hex.split('').map(char => char + char).join('')
+        }
+        hex.match(/.{2}/g)!.map((value, index) => {
+            const number = parseInt(value, 16)
+            const channels: (keyof Color)[] = ['red', 'green', 'blue', 'alpha']
+            color[channels[index]] = number
+        })
+    }
+    // HSL / HSLA
+    const hslaRegExp = /^hsla?\(\s*(\d{1,3})\s*,\s*([.\d]+)%\s*,\s*([.\d]+)%\s*(?:,\s*([.\d]+)\s*)?\)$/i
+    const hslaMatched = colorString.match(hslaRegExp)
+    if (hslaMatched) {
+        let [, hue, saturation, lightness, alpha] = hslaMatched
+        const h = +hue / 360
+        const s = +saturation / 100
+        const l = +lightness / 100
+        if (!s) {
+            color.red = color.green = color.blue = Math.round(l * 255)
+        } else {
+            function getChannel(p: number, q: number, t: number) {
+                let channel: number
+                if (t < 0) {
+                    t += 1
+                } else if (t > 1) {
+                    t -= 1
+                }
+                if (t < 1 / 6) {
+                    channel = p + (q - p) * 6 * t
+                } else if (t < 1 / 2) {
+                    channel = q
+                } else if (t < 2 / 3) {
+                    channel = p + (q - p) * 6 * (2 / 3 - t)
+                } else {
+                    channel = p
+                }
+                return Math.round(channel * 255)
+            }
+            const q = l < 0.5 ? l * (1 + s) : l + s - (l * s)
+            const p = 2 * l - q
+            const tR = h + 1 / 3
+            const tG = h
+            const tB = h - 1 / 3
+            color.red = getChannel(p, q, tR)
+            color.green = getChannel(p, q, tG)
+            color.blue = getChannel(p, q, tB)
+        }
+        color.alpha = alpha ? Math.floor(+alpha * 255) : 255
+    }
+    // RGB / RGBA
+    const rgbaRegExp = /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*([.\d]+)\s*)?\)$/i
+    const rgbaMatched = colorString.match(rgbaRegExp)
+    if (rgbaMatched) {
+        const [, red, green, blue, alpha] = rgbaMatched
+        color.red = +red
+        color.green = +green
+        color.blue = +blue
+        color.alpha = alpha ? Math.floor(+alpha * 255) : 255
+    }
+    return color
 }
 
 function getBackgroundColor(content: CanvasRenderingContext2D) {

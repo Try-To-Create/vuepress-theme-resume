@@ -63,7 +63,7 @@ const school: string = (() => {
             <Line class-name="email" :href="'mailto:' + email" :text="email"/>
             <Line class-name="github" :href="github" :text="github"/>
             <Line class-name="gitee" :href="gitee" :text="gitee"/>
-            <div v-if="introduce" class="introduce">{{ introduce }}</div>
+            <Line class-name="introduce" :text="introduce"/>
         </div>
         <ClientOnly>
             <Suspense>
